@@ -1,5 +1,5 @@
 /*
-Copyright © 2026 NAME HERE <EMAIL ADDRESS>
+Copyright © 2026 massemiso <massemiso@proton.me>
 */
 package cmd
 
@@ -8,6 +8,8 @@ import (
 	"log"
 	"os"
 	"regexp"
+
+	"caching-proxy/internal/server"
 
 	"github.com/spf13/cobra"
 )
@@ -58,6 +60,12 @@ func RunE(port int, origin string, clearCache bool) error {
 
 	if origin == "" || !isAURL(origin) {
 		return fmt.Errorf("origin has to follow the format: 'http://localhost.com'")
+	}
+
+	proxyReverse := server.NewReverseProxy(origin, port)
+	err := proxyReverse.RunServer()
+	if err != nil {
+		return err
 	}
 
 	return nil
