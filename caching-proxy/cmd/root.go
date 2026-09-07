@@ -49,8 +49,15 @@ func init() {
 }
 
 func RunE(port int, origin string, clearCache bool) error {
-	// TODO
+	cache := server.NewCacheService("caching_proxy")
+
 	if clearCache {
+		err := cache.ClearCache()
+		if err != nil {
+			return err
+		}
+
+		log.Print("CACHE CLEARED")
 		return nil
 	}
 
@@ -62,7 +69,7 @@ func RunE(port int, origin string, clearCache bool) error {
 		return fmt.Errorf("origin has to follow the format: 'http://localhost.com'")
 	}
 
-	proxyReverse := server.NewReverseProxy(origin, port)
+	proxyReverse := server.NewReverseProxy(origin, port, cache)
 	err := proxyReverse.RunServer()
 	if err != nil {
 		return err
