@@ -6,8 +6,8 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"net/url"
 	"os"
-	"regexp"
 
 	"caching-proxy/internal/server"
 
@@ -78,8 +78,7 @@ func RunE(port int, origin string, clearCache bool) error {
 	return nil
 }
 
-func isAURL(url string) bool {
-	expr := `^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$`
-	r, _ := regexp.Compile(expr)
-	return r.MatchString(url)
+func isAURL(rawUrl string) bool {
+	_, err := url.ParseRequestURI(rawUrl)
+	return err == nil
 }
