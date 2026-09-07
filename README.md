@@ -2,6 +2,17 @@
 
 Welcome to my backend engineering portfolio! This repository tracks my progress as I work through the [roadmap.sh/backend](https://roadmap.sh/backend) project-based learning path.
 
+## Table of Contents
+
+- [About Me](#-about-me)
+- [Projects](#-projects)
+- [Tech Stack](#-tech-stack)
+- [Architectural Standards](#-architectural-standards)
+- [Current Goals](#-current-goals)
+- [Testing & Quality](#-testing--quality)
+- [How to Explore](#-how-to-explore)
+- [Feedback](#-feedback)
+
 ## 👋 About Me
 
 I'm **massemiso**, a junior backend developer with a deep desire to master the underlying mechanics of web development, systems architecture, and high-performance coding. This repository is my "learning laboratory" where I practice building robust, well-tested, and maintainable software.
@@ -12,7 +23,7 @@ I'm **massemiso**, a junior backend developer with a deep desire to master the u
 
 A command-line interface for managing daily tasks with persistent JSON storage.
 
-- **Concepts:** File I/O, JSON Serialization, CRUD, CLI Argument Parsing.
+- **Concepts:** File I/O, JSON Serialization, CRUD, CLI Argument Parsing, Pointer Mutation, Isolated I/O Testing.
 
 ### 2. [GitHub User Activity CLI](./github-activity)
 
@@ -24,25 +35,25 @@ A CLI tool to fetch and display GitHub activity with rich event details.
 
 A financial management CLI with budget controls and CSV exporting.
 
-- **Concepts:** Layered Architecture, Interface-Driven Design, Command Dispatch Maps.
+- **Concepts:** Layered Architecture, Interface-Driven Design, Command Dispatch Maps, Environment Standards (`NO_COLOR` compliance), Presentation/Service Decoupling.
 
 ### 4. [Number Guessing Game CLI](./number-guessing-game)
 
 A strategy-based guessing game with leaderboard persistence.
 
-- **Concepts:** Strategy Pattern, Higher-order Functions, State Persistence.
+- **Concepts:** Strategy Pattern, Higher-order Functions, State Persistence, State-Driven Structs, Input Sanitation Primitives, Pure Functions.
 
 ### 5. [Unit Converter](./unit-converter)
 
 A web-based tool for unit conversion, utilizing a Go backend and JS frontend.
 
-- **Concepts:** REST API, Client-Server Architecture, CORS handling.
+- **Concepts:** REST API, Client-Server Architecture, CORS handling, Standard `net/http` Routing, DTO Validation.
 
 ### 6. [Personal Blog](./personal-blog)
 
 A full-stack personal blog platform with server-side rendering.
 
-- **Concepts:** Spring Boot, Thymeleaf, Spring Security, Responsive Design, **Robust Testing (JUnit, Mockito, MockMvc)**, **Containerization (Docker)**.
+- **Concepts:** Spring Boot, Thymeleaf, Spring Security, Responsive Design, Embedded Storage (SQLite), Basic Authentication, Filesystem Storage, **Robust Testing (JUnit, Mockito, MockMvc)**, **Containerization (Docker)**.
 
 ### 7. [Weather API](./weather-api)
 
@@ -60,7 +71,7 @@ A professional-grade REST API for a blogging platform with PostgreSQL.
 
 A secure, multi-user REST API with JWT authentication and dynamic filtering.
 
-- **Concepts:** JWT Authentication, Spring Security, JPA Specifications, Dynamic Filtering.
+- **Concepts:** JWT Authentication, Spring Security, JPA Specifications, Dynamic Filtering, Entity Relationships (One-To-Many mapping), Owner-Based Auth, **Rate Limiting (Bucket4j)**.
 
 ### 10. [Expense Tracker API](./expense-tracker-api)
 
@@ -72,7 +83,7 @@ A robust financial management API with Swagger documentation and multi-user supp
 
 A high-performance CLI tool to fetch and display trending GitHub repositories.
 
-- **Concepts:** CLI Design, REST API Consumption, JSON Parsing, Go Standard Library.
+- **Concepts:** CLI Design, REST API Consumption, JSON Parsing, Go Standard Library, GitHub Search API Integration.
 
 ### 12. [TMDB CLI Tool](./tmdb-cli-tool)
 
@@ -85,8 +96,16 @@ A CLI tool to interact with The Movie Database API for fetching trending and sea
 - **Go (Golang):** My primary language for CLI tools and high-performance services, emphasizing standard library usage and clean architecture.
 - **Java (Spring Boot):** My chosen framework for building robust, enterprise-grade APIs and web applications.
 - **Web Frontend:** Basic HTML, JavaScript, and CSS for building functional and responsive user interfaces.
-- **Testing:** Unit, Integration, and Mock-based testing (JUnit 5, Mockito, MockMvc) to ensure high-quality, maintainable code.
+- **Testing:** Unit, Integration, and Mock-based testing (JUnit 5, Mockito, MockMvc, REST-Assured, Testcontainers) to ensure high-quality, maintainable code.
 - **Containerization:** Docker & Docker Compose for consistent, portable deployments.
+
+## 🏆 Architectural Standards
+
+Across all projects in this repository, code is written adhering to strict backend engineering principles:
+
+- **Decoupled Business Logic:** Clear segregation between transport layers (HTTP handlers / CLI flag parsers), domain services, and persistence models.
+- **Graceful Error Handling:** Standardized error flows returning predictable payloads (Spring `ErrorResponse` DTOs) or idiomatic error values bubbling up the stack (Go).
+- **Environment Accessibility:** Strict compliance with terminal conventions like the `NO_COLOR` standard across CLI tools.
 
 ## 🎯 Current Goals
 
@@ -100,8 +119,8 @@ A CLI tool to interact with The Movie Database API for fetching trending and sea
 
 I prioritize high-quality, maintainable code. Each project features a comprehensive test suite using industry-standard tools:
 
-- **Go Projects:** Table-Driven tests and Mock-based integration tests.
-- **Spring Boot Projects:** Unit tests for Service logic and `MockMvc` integration tests for the Web/API layer.
+- **Go Projects:** Table-Driven tests, Mock-based integration tests, and **Isolated File System Testing** utilizing `t.TempDir()` to test repository file I/O operations without corrupting local disk data.
+- **Spring Boot Projects:** Unit tests for Service logic, `MockMvc` integration tests for the Web/API layer, and **Testcontainers** for full integration testing against real containerized PostgreSQL instances to ensure exact database dialect parity (eliminating the need for fragile in-memory databases like H2).
 - **Goal:** To ensure code reliability, easy refactoring, and a seamless user experience.
 
 ## 📖 How to Explore
