@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Article;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class ArticleController extends Controller
 {
@@ -36,7 +37,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        //
+        return view('new');
     }
 
     /**
@@ -44,7 +45,21 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validate article
+        $validated = $request->validate([
+            'title' => 'required|string|max:50',
+            'dop' => ['required', Rule::date()->beforeOrEqual(today())],
+            'content' => 'required|max:500',
+        ]);
+
+        // create the article
+        Article::create([
+            'title' => $validated['title'],
+            'dop' => $validated['dop'],
+            'content' => $validated['content'],
+        ]);
+
+        return redirect('admin')->with('success', 'Article created successfully!');
     }
 
     /**

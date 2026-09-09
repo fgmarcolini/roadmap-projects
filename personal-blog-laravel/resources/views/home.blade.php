@@ -22,7 +22,7 @@
                     <input type="text" name="title" class="form-control" placeholder="Filter by title...">
                 </div>
                 <div class="col-auto">
-                    <input type="date" name="created_at" class="form-control">
+                    <input type="date" name="dop" class="form-control">
                 </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary">Filter</button>

@@ -16,6 +16,7 @@ class ArticleSeeder extends Seeder
             DB::table('articles')->insert([
                 'title' => substr(file_get_contents('https://lorem-api.com/api/lorem'), 0, 20),
                 'content' => file_get_contents('https://lorem-api.com/api/lorem'),
+                'dop' => date('M j,Y'),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);

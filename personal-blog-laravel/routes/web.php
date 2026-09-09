@@ -10,3 +10,5 @@ Route::get('/', function () {
 Route::get('/home', [ArticleController::class, 'index']);
 Route::get('/article/{article}', [ArticleController::class, 'show']);
 Route::get('/admin', [ArticleController::class, 'admin']);
+Route::get('/new', [ArticleController::class, 'create']);
+Route::post('/article', [ArticleController::class, 'store']);

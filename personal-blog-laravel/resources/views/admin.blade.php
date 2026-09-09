@@ -11,7 +11,7 @@
 <body class="bg-light">
     <header class="bg-primary text-white p-4 mb-4">
         <div class="container d-flex justify-content-between align-items-center">
-            <h1>Personal Blog Dashboard</h1>
+            <h1>Admin Dashboard</h1>
             <a href="{{ url('/new') }}" class="btn btn-light">+ Add Article</a>
         </div>
     </header>
@@ -25,7 +25,7 @@
                 <input type="text" name="title" class="form-control" placeholder="Filter by title...">
             </div>
             <div class="col-auto">
-                <input type="date" name="created_at" class="form-control">
+                <input type="date" name="dop" class="form-control">
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Filter</button>

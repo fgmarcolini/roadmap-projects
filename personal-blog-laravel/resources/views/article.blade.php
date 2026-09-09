@@ -21,7 +21,7 @@
         </article>
         <hr />
         <footer>
-            <p class="text-muted">Published on: {{ $article->created_at->format('M j, Y') }}</p>
+            <p class="text-muted">Published on: {{ $article->dop }}</p>
             <a href="{{ url('/home') }}" class="btn btn-outline-primary btn-sm">Go back to home</a>
         </footer>
     </main>
