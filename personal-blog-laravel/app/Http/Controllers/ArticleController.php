@@ -75,7 +75,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        //
+        return view('edit', compact('article'));
     }
 
     /**
@@ -83,7 +83,21 @@ class ArticleController extends Controller
      */
     public function update(Request $request, Article $article)
     {
-        //
+        // validate updated fields
+        $validated = $request->validate([
+            'title' => 'required|string|max:50',
+            'dop' => ['required', Rule::date()->beforeOrEqual(today())],
+            'content' => 'required|max:500',
+        ]);
+
+        // create the article
+        $article->update([
+            'title' => $validated['title'],
+            'dop' => $validated['dop'],
+            'content' => $validated['content'],
+        ]);
+
+        return redirect('admin')->with('success', 'Article updated successfully!');
     }
 
     /**
@@ -91,6 +105,8 @@ class ArticleController extends Controller
      */
     public function destroy(Article $article)
     {
-        //
+        $article->delete();
+
+        return redirect('admin')->with('success', 'Article deleted succesfully!');
     }
 }

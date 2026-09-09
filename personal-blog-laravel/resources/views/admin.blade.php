@@ -44,8 +44,12 @@
                         <div>
                             <a class="btn btn-sm btn-outline-secondary me-2"
                                 href="{{ url('/edit/' . $article->id) }}">Edit</a>
-                            <a class="btn btn-sm btn-outline-danger"
-                                href="{{ url('/delete/' . $article->id) }}">Delete</a>
+                            <form action="{{ url('/delete/' . $article->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
                         </div>
                     </li>
                 @endforeach
