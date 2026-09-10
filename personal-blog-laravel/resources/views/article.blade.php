@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Article {{ $article->id }}</title>
+    <title>{{ $article->title }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 
@@ -16,8 +16,9 @@
     </header>
     <main class="container bg-white p-4 rounded shadow-sm">
         <article>
-            <h1>{{ $article->title }}</h1>
-            <p class="lead">{!! $article->content !!}</p>
+            <x-markdown>
+                {{ $article->content }}
+            </x-markdown>
         </article>
         <hr />
         <footer>
