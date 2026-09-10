@@ -26,7 +26,7 @@
         </div>
     </header>
     <main class="container bg-white p-4 rounded shadow-sm">
-        <form method="post" action="{{ url('/article') }}">
+        <form method="post" action="{{ route('articles.store') }}">
             @csrf
             <div class="mb-3">
                 <label for="title" class="form-label">Title</label>
@@ -46,7 +46,7 @@
         </form>
     </main>
     <footer class="container mt-4">
-        <a href="{{ url('/admin') }}" class="btn btn-outline-secondary btn-sm">Go back to dashboard</a>
+        <a href="{{ route('articles.admin') }}" class="btn btn-outline-secondary btn-sm">Go back to dashboard</a>
     </footer>
 </body>
 

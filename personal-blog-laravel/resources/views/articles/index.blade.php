@@ -12,12 +12,12 @@
     <header class="bg-primary text-white p-4 mb-4">
         <div class="container d-flex justify-content-between align-items-center">
             <h1>Personal Blog</h1>
-            <a href="/admin" class="btn btn-outline-light">Admin Login</a>
+            <a href="{{ route('articles.admin') }}" class="btn btn-outline-light">Admin Login</a>
         </div>
     </header>
     <main class="container">
         <div class="container mb-4">
-            <form action="{{ url('/home') }}" method="get" class="row g-3">
+            <form action="{{ route('articles.index') }}" method="get" class="row g-3">
                 <div class="col-auto">
                     <input type="text" name="title" class="form-control" placeholder="Filter by title...">
                 </div>
@@ -26,14 +26,14 @@
                 </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary">Filter</button>
-                    <a href="{{ url('/home') }}" class="btn btn-secondary">Clear</a>
+                    <a href="{{ route('articles.index') }}" class="btn btn-secondary">Clear</a>
                 </div>
             </form>
         </div>
 
         <div class="list-group">
             @foreach ($articles as $article)
-                <a href="{{ url('/article/' . $article->id) }}"
+                <a href="{{ route('articles.show', $article) }}"
                     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     <h5 class="mb-1">{{ $article->title }}</h5>
                     <small class="text-muted">{{ date_format($article->dop, 'M j, Y') }}</small>

@@ -26,7 +26,7 @@
         </div>
     </header>
     <main class="container bg-white p-4 rounded shadow-sm">
-        <form method="POST" action="{{ url('/update/' . $article->id) }}">
+        <form method="POST" action="{{ route('articles.update', $article) }}">
             @csrf
             @method('PUT')
             <div class="mb-3">
@@ -47,7 +47,7 @@
         </form>
     </main>
     <footer class="container mt-4">
-        <a href="{{ url('/admin') }}" class="btn btn-outline-secondary btn-sm">Go back to dashboard</a>
+        <a href="{{ route('articles.admin') }}" class="btn btn-outline-secondary btn-sm">Go back to dashboard</a>
     </footer>
 </body>
 

@@ -17,7 +17,7 @@ class ArticleController extends Controller
         $filters = $request->validated();
         $articles = $service->fetchAll($filters);
 
-        return view('home', compact('articles'));
+        return view('articles.index', compact('articles'));
     }
 
     /**
@@ -28,7 +28,7 @@ class ArticleController extends Controller
         $filters = $request->validated();
         $articles = $service->fetchAll($filters);
 
-        return view('admin', compact('articles'));
+        return view('articles.admin', compact('articles'));
     }
 
     /**
@@ -36,7 +36,7 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('new');
+        return view('articles.create');
     }
 
     /**
@@ -46,7 +46,9 @@ class ArticleController extends Controller
     {
         $service->storeArticle($request->validated());
 
-        return redirect('admin')->with('success', 'Article created successfully!');
+        return redirect()
+            ->route('articles.admin')
+            ->with('success', 'Article created successfully!');
     }
 
     /**
@@ -54,7 +56,8 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return view('article', ['article' => $article]);
+        return view('articles.show',
+            ['article' => $article]);
     }
 
     /**
@@ -62,7 +65,7 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
-        return view('edit', compact('article'));
+        return view('articles.edit', compact('article'));
     }
 
     /**
@@ -72,7 +75,9 @@ class ArticleController extends Controller
     {
         $service->updateArticle($article, $request->validated());
 
-        return redirect('admin')->with('success', 'Article updated successfully!');
+        return redirect()
+            ->route('articles.admin')
+            ->with('success', 'Article updated successfully!');
     }
 
     /**
@@ -82,6 +87,8 @@ class ArticleController extends Controller
     {
         $service->deleteArticle($article);
 
-        return redirect('admin')->with('success', 'Article deleted succesfully!');
+        return redirect()
+            ->route('articles.admin')
+            ->with('success', 'Article deleted succesfully!');
     }
 }

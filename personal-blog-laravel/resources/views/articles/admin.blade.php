@@ -12,15 +12,15 @@
     <header class="bg-primary text-white p-4 mb-4">
         <div class="container d-flex justify-content-between align-items-center">
             <h1>Admin Dashboard</h1>
-            <a href="{{ url('/new') }}" class="btn btn-light">+ Add Article</a>
+            <a href="{{ route('articles.create') }}" class="btn btn-light">+ Add Article</a>
         </div>
     </header>
     <div class="container mb-3">
-        <a href="{{ url('/home') }}" class="btn btn-outline-primary">Return to Home</a>
+        <a href="{{ route('articles.index') }}" class="btn btn-outline-primary">Return to Home</a>
     </div>
 
     <div class="container mb-4">
-        <form action="{{ url('/admin') }}" method="get" class="row g-3">
+        <form action="{{ route('articles.admin') }}" method="get" class="row g-3">
             <div class="col-auto">
                 <input type="text" name="title" class="form-control" placeholder="Filter by title...">
             </div>
@@ -29,7 +29,7 @@
             </div>
             <div class="col-auto">
                 <button type="submit" class="btn btn-primary">Filter</button>
-                <a href="{{ url('/admin') }}" class="btn btn-secondary">Clear</a>
+                <a href="{{ route('articles.admin') }}" class="btn btn-secondary">Clear</a>
             </div>
         </form>
     </div>
@@ -40,11 +40,11 @@
                 @foreach ($articles as $article)
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         <a class="text-decoration-none h5 mb-0"
-                            href="{{ url('/article/' . $article->id) }}">{{ $article->title }}</a>
+                            href="{{ route('articles.show', $article) }}">{{ $article->title }}</a>
                         <div>
                             <a class="btn btn-sm btn-outline-secondary me-2"
-                                href="{{ url('/edit/' . $article->id) }}">Edit</a>
-                            <form action="{{ url('/delete/' . $article->id) }}" method="POST" class="d-inline">
+                                href="{{ route('articles.edit', $article) }}">Edit</a>
+                            <form action="{{ route('articles.destroy', $article) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-outline-danger"
