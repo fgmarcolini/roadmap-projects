@@ -36,7 +36,7 @@
                 <a href="{{ url('/article/' . $article->id) }}"
                     class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
                     <h5 class="mb-1">{{ $article->title }}</h5>
-                    <small class="text-muted">{{ $article->updated_at->diffForHumans() }}</small>
+                    <small class="text-muted">{{ date_format($article->dop, 'M j, Y') }}</small>
                 </a>
             @endforeach
         </div>

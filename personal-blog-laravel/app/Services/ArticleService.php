@@ -11,7 +11,7 @@ class ArticleService
     public function fetchAll(array $filters)
     {
         return $this->getArticlesFiltered($filters)
-            ->latest('updated_at')
+            ->latest('dop')
             ->simplePaginate(5);
     }
 
@@ -22,7 +22,7 @@ class ArticleService
                 $query->where('title', 'like', "%{$title}%");
             })
             ->when($filters['dop'] ?? null, function ($query, $dop) {
-                $query->where('dop', '>=', "DATE %{$dop}%", 'and', 'dop', '<', "DATE %{$dop}%");
+                $query->whereDate('dop', $dop);
             });
     }
 

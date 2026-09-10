@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,7 @@ class ArticleSeeder extends Seeder
             DB::table('articles')->insert([
                 'title' => substr(file_get_contents('https://lorem-api.com/api/lorem'), 0, 20),
                 'content' => file_get_contents('https://lorem-api.com/api/lorem'),
-                'dop' => date('M j,Y'),
+                'dop' => date('Y-m-d', strtotime(Carbon::today()->subDays($i))),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
