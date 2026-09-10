@@ -2,20 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
+use App\Services\ArticleService;
 
 class ArticleController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(ArticleService $service)
     {
-        $articles = Article::all()
-            ->take(50)
-            ->sortByDesc('created_at');
+        $articles = $service->fetchAll();
 
         return view('home', compact('articles'));
     }
@@ -23,11 +21,9 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function admin()
+    public function admin(ArticleService $service)
     {
-        $articles = Article::all()
-            ->take(50)
-            ->sortByDesc('created_at');
+        $articles = $service->fetchAll();
 
         return view('admin', compact('articles'));
     }
@@ -43,21 +39,9 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ArticleService $service, ArticleRequest $request)
     {
-        // validate article
-        $validated = $request->validate([
-            'title' => 'required|string|max:50',
-            'dop' => ['required', Rule::date()->beforeOrEqual(today())],
-            'content' => 'required|max:500',
-        ]);
-
-        // create the article
-        Article::create([
-            'title' => $validated['title'],
-            'dop' => $validated['dop'],
-            'content' => $validated['content'],
-        ]);
+        $service->storeArticle($request->validated());
 
         return redirect('admin')->with('success', 'Article created successfully!');
     }
@@ -81,21 +65,9 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Article $article)
+    public function update(ArticleService $service, ArticleRequest $request, Article $article)
     {
-        // validate updated fields
-        $validated = $request->validate([
-            'title' => 'required|string|max:50',
-            'dop' => ['required', Rule::date()->beforeOrEqual(today())],
-            'content' => 'required|max:500',
-        ]);
-
-        // create the article
-        $article->update([
-            'title' => $validated['title'],
-            'dop' => $validated['dop'],
-            'content' => $validated['content'],
-        ]);
+        $service->updateArticle($article, $request->validated());
 
         return redirect('admin')->with('success', 'Article updated successfully!');
     }
@@ -103,9 +75,9 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Article $article)
+    public function destroy(ArticleService $service, Article $article)
     {
-        $article->delete();
+        $service->deleteArticle($article);
 
         return redirect('admin')->with('success', 'Article deleted succesfully!');
     }
