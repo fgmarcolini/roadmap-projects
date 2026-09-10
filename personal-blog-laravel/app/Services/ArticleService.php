@@ -3,16 +3,27 @@
 namespace App\Services;
 
 use App\Models\Article;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ArticleService
 {
-    public function fetchAll(): Paginator
+    public function fetchAll(array $filters)
     {
-        return Article::orderBy('updated_at', 'DESC')
+        return $this->getArticlesFiltered($filters)
+            ->latest('updated_at')
             ->simplePaginate(5);
+    }
+
+    private function getArticlesFiltered(array $filters)
+    {
+        return Article::query()
+            ->when($filters['title'] ?? null, function ($query, $title) {
+                $query->where('title', 'like', "%{$title}%");
+            })
+            ->when($filters['dop'] ?? null, function ($query, $dop) {
+                $query->where('dop', '>=', "DATE %{$dop}%", 'and', 'dop', '<', "DATE %{$dop}%");
+            });
     }
 
     public function storeArticle(array $data): Article

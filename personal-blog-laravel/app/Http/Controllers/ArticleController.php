@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ArticleFilterRequest;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Services\ArticleService;
@@ -11,9 +12,10 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(ArticleService $service)
+    public function index(ArticleService $service, ArticleFilterRequest $request)
     {
-        $articles = $service->fetchAll();
+        $filters = $request->validated();
+        $articles = $service->fetchAll($filters);
 
         return view('home', compact('articles'));
     }
@@ -21,9 +23,10 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function admin(ArticleService $service)
+    public function admin(ArticleService $service, ArticleFilterRequest $request)
     {
-        $articles = $service->fetchAll();
+        $filters = $request->validated();
+        $articles = $service->fetchAll($filters);
 
         return view('admin', compact('articles'));
     }
