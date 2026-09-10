@@ -1,54 +1,27 @@
-<!doctype html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Update Article</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <script>
-        function setTodayDate() {
-            const dateInput = document.getElementById("date");
-            // Only set if the input is empty to avoid overwriting existing data
-            if (!dateInput.value) {
-                dateInput.valueAsDate = new Date();
-            }
-        }
-        // Run when the page loads
-        document.addEventListener("DOMContentLoaded", setTodayDate);
-    </script>
-</head>
-
-<body class="bg-light">
-    <header class="bg-primary text-white p-4 mb-4">
-        <div class="container">
-            <h1>Update Article</h1>
-        </div>
-    </header>
-    <main class="container bg-white p-4 rounded shadow-sm">
+<x-layout title="Update Article" heading="Update Article">
+    <div class="bg-white p-4 rounded shadow-sm">
         <form method="POST" action="{{ route('articles.update', $article) }}">
             @csrf
             @method('PUT')
-            <div class="mb-3">
-                <label for="title" class="form-label">Title</label>
-                <input type="text" class="form-control border-dark" id="title" name="title"
-                    value="{{ old('title', $article->title ?? '') }}" />
-            </div>
-            <div class="mb-3">
-                <label for="date" class="form-label">Date</label>
-                <input type="date" class="form-control border-dark" id="date" name="dop"
-                    value="{{ old('dop', $article->dop ?? '') }}" />
-            </div>
-            <div class="mb-3">
-                <label for="content" class="form-label">Content</label>
-                <textarea class="form-control border-dark" id="content" name="content" rows="10">{{ old('content', $article->content ?? '') }}</textarea>
-            </div>
+
+            <x-form-input name="title" label="Title" :value="$article->title" />
+            <x-form-input name="dop" label="Date" type="date" :value="$article->dop" />
+            <x-form-input name="content" label="Content" type="textarea" :value="$article->content" />
+
             <button type="submit" class="btn btn-primary">Update</button>
         </form>
-    </main>
-    <footer class="container mt-4">
+    </div>
+    <div class="mt-4">
         <a href="{{ route('articles.admin') }}" class="btn btn-outline-secondary btn-sm">Go back to dashboard</a>
-    </footer>
-</body>
+    </div>
+</x-layout>
 
-</html>
+<script>
+    function setTodayDate() {
+        const dateInput = document.getElementById("dop");
+        if (!dateInput.value) {
+            dateInput.valueAsDate = new Date();
+        }
+    }
+    document.addEventListener("DOMContentLoaded", setTodayDate);
+</script>
