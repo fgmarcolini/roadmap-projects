@@ -3,17 +3,16 @@
 namespace App\Services;
 
 use App\Models\Article;
-use Illuminate\Support\Collection;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ArticleService
 {
-    public function fetchAll(): Collection
+    public function fetchAll(): Paginator
     {
-        return Article::all()
-            ->take(50)
-            ->sortByDesc('updated_at');
+        return Article::orderBy('updated_at', 'DESC')
+            ->simplePaginate(5);
     }
 
     public function storeArticle(array $data): Article

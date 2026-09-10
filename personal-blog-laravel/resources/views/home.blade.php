@@ -42,25 +42,7 @@
         </div>
 
         <!-- Pagination Controls -->
-        {{ $pageTotal = 0 }}
-        {{ $pageNumber = 0 }}
-        @if ($pageTotal > 1)
-            <nav class="mt-4">
-                <ul class="pagination justify-content-center">
-                    <li class="page-item {{ $pageNumber == 0 ? 'disabled' : '' }}">
-                        <a class="page-link"
-                            href="{{ url('/home') }}?{{ http_build_query(['page' => $pageNumber - 1, 'title' => request('title', $articleFilterDto['title'] ?? ''), 'dateOfPublication' => request('dateOfPublication', $articleFilterDto['dateOfPublication'] ?? '')]) }}">Previous</a>
-                    </li>
-                    <li class="page-item disabled">
-                        <span class="page-link">Page {{ $pageNumber + 1 }} of {{ $pageTotal }}</span>
-                    </li>
-                    <li class="page-item {{ $pageNumber + 1 == $pageTotal ? 'disabled' : '' }}">
-                        <a class="page-link"
-                            href="{{ url('/home') }}?{{ http_build_query(['page' => $pageNumber + 1, 'title' => request('title', $articleFilterDto['title'] ?? ''), 'dateOfPublication' => request('dateOfPublication', $articleFilterDto['dateOfPublication'] ?? '')]) }}">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        @endif
+        {{ $articles->links() }}
     </main>
 </body>
 

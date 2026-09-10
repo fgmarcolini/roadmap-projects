@@ -55,7 +55,8 @@
                 @endforeach
             </ul>
         </nav>
-
+        <!-- Pagination Controls -->
+        {{ $articles->links() }}
     </main>
 </body>
 
