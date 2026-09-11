@@ -1,4 +1,7 @@
 <x-layout :title="$article->title" heading="Personal Blog">
+    <h1>
+        <u>{{ $article->title }}</u>
+    </h1>
     <div class="bg-white p-4 rounded shadow-sm">
         <article>
             <x-markdown>

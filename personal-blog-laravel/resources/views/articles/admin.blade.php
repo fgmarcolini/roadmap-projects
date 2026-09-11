@@ -28,16 +28,18 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a class="text-decoration-none h5 mb-0"
                         href="{{ route('articles.show', $article) }}">{{ $article->title }}</a>
-                    <div>
-                        <a class="btn btn-sm btn-outline-secondary me-2"
-                            href="{{ route('articles.edit', $article) }}">Edit</a>
-                        <form action="{{ route('articles.destroy', $article) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-outline-danger"
-                                onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
-                    </div>
+                    @can('update', $article)
+                        <div>
+                            <a class="btn btn-sm btn-outline-secondary me-2"
+                                href="{{ route('articles.edit', $article) }}">Edit</a>
+                            <form action="{{ route('articles.destroy', $article) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-outline-danger"
+                                    onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </div>
+                    @endcan
                 </li>
             @endforeach
         </ul>

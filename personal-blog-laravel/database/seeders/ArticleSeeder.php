@@ -40,8 +40,15 @@ class ArticleSeeder extends Seeder
             'Argentina vs England',
             'Spain vs Portugal',
             'Spain vs Craotia',
+            'Spain vs Cape Verde',
             'France vs Spain',
             'France vs Morocco',
+            'England vs Mexico',
+            'England vs Norway',
+            'Argentina vs Egypt',
+            'Argentina vs Cape Verde',
+            'Argentina vs Switzerland',
+            'Uruguay vs Cape Verde',
         ];
 
         $i = 0;

@@ -4,21 +4,24 @@ namespace App\Services;
 
 use App\Models\Article;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
 class ArticleService
 {
-    public function fetchAll(array $filters)
+    public function fetchAll(array $filters, ?User $user = null)
     {
-        return $this->getArticlesFiltered($filters)
+        return $this
+            ->applyFilters($user ? $user->articles() : Article::query(), $filters)
             ->latest('dop')
             ->simplePaginate(5);
     }
 
-    private function getArticlesFiltered(array $filters)
+    private function applyFilters(Builder|HasMany $query, array $filters)
     {
-        return Article::query()
+        return $query
             ->when($filters['title'] ?? null, function ($query, $title) {
                 $query->where('title', 'like', "%{$title}%");
             })

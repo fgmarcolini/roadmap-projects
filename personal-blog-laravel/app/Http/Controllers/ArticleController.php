@@ -26,8 +26,9 @@ class ArticleController extends Controller
      */
     public function admin(ArticleService $service, ArticleFilterRequest $request)
     {
+        $user = auth()->user();
         $filters = $request->validated();
-        $articles = $service->fetchAll($filters);
+        $articles = $service->fetchAll($filters, $user);
 
         return view('articles.admin', compact('articles'));
     }
