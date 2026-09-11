@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Models\Article;
+use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Throwable;
 
@@ -26,12 +27,12 @@ class ArticleService
             });
     }
 
-    public function storeArticle(array $data): Article
+    public function storeArticle(User $user, array $data): Article
     {
         Log::info('Attempting to create a new article', ['title' => $data['title']]);
 
         try {
-            $article = Article::create($data);
+            $article = $user->articles()->create($data);
             Log::info('Article created successfully', ['articleId' => $article->id]);
 
             return $article;

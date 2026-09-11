@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class ArticleSeeder extends Seeder
 {
@@ -13,14 +13,47 @@ class ArticleSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 10; $i++) {
-            DB::table('articles')->insert([
-                'title' => substr(file_get_contents('https://lorem-api.com/api/lorem'), 0, 20),
-                'content' => file_get_contents('https://lorem-api.com/api/lorem'),
+        $lorem = 'https://jaspervdj.be/lorem-markdownum/markdown.txt';
+
+        $users = User::count() < 3
+                ? collect([
+                    User::create([
+                        'name' => 'Alice Developer',
+                        'email' => 'alice@example.com',
+                        'password' => bcrypt('password'),
+                    ]),
+                    User::create([
+                        'name' => 'Bob Builder',
+                        'email' => 'bob@example.com',
+                        'password' => bcrypt('password'),
+                    ]),
+                    User::create([
+                        'name' => 'Charlie Coder',
+                        'email' => 'charlie@example.com',
+                        'password' => bcrypt('password'),
+                    ]),
+                ])
+                : User::take(3)->get();
+
+        $matches = [
+            'Argentina vs Spain',
+            'Argentina vs England',
+            'Spain vs Portugal',
+            'Spain vs Craotia',
+            'France vs Spain',
+            'France vs Morocco',
+        ];
+
+        $i = 0;
+        foreach ($matches as $match) {
+            $users->random()->articles()->create([
+                'title' => $match,
+                'content' => file_get_contents($lorem),
                 'dop' => date('Y-m-d', strtotime(Carbon::today()->subDays($i))),
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
+            $i++;
         }
     }
 }

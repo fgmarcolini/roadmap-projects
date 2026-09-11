@@ -6,6 +6,7 @@ use App\Http\Requests\ArticleFilterRequest;
 use App\Http\Requests\ArticleRequest;
 use App\Models\Article;
 use App\Services\ArticleService;
+use Illuminate\Support\Facades\Gate;
 
 class ArticleController extends Controller
 {
@@ -44,7 +45,7 @@ class ArticleController extends Controller
      */
     public function store(ArticleService $service, ArticleRequest $request)
     {
-        $service->storeArticle($request->validated());
+        $service->storeArticle(auth()->user(), $request->validated());
 
         return redirect()
             ->route('articles.admin')
@@ -65,6 +66,8 @@ class ArticleController extends Controller
      */
     public function edit(Article $article)
     {
+        Gate::authorize('update', $article);
+
         return view('articles.edit', compact('article'));
     }
 
@@ -73,6 +76,8 @@ class ArticleController extends Controller
      */
     public function update(ArticleService $service, ArticleRequest $request, Article $article)
     {
+        Gate::authorize('update', $article);
+
         $service->updateArticle($article, $request->validated());
 
         return redirect()
@@ -85,6 +90,8 @@ class ArticleController extends Controller
      */
     public function destroy(ArticleService $service, Article $article)
     {
+        Gate::authorize('delete', $article);
+
         $service->deleteArticle($article);
 
         return redirect()
