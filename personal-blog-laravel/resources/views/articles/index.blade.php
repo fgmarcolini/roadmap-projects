@@ -1,14 +1,18 @@
 <x-layout title="Home" heading="Personal Blog">
     <x-slot:headerActions>
         @auth
-            <a href="{{ route('articles.admin') }}" class="btn btn-outline-light">Admin Dashboard</a>
-            <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                @csrf
-                <button type="submit" class="btn btn-outline-light">Logout</button>
-            </form>
+            <div class="link-container">
+                <a href="{{ route('articles.admin') }}" class="btn btn-outline-light">Admin Dashboard</a>
+                <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                    @csrf
+                    <button type="submit" class="btn btn-outline-light">Logout</button>
+                </form>
+            </div>
         @else
-            <a href="{{ route('login') }}" class="btn btn-outline-light">Login</a>
-            <a href="{{ route('register') }}" class="btn btn-outline-light">Register</a>
+            <div class="link-container">
+                <a href="{{ route('login') }}" class="btn btn-outline-light">Login</a>
+                <a href="{{ route('register') }}" class="btn btn-outline-light">Register</a>
+            </div>
         @endauth
     </x-slot:headerActions>
 
