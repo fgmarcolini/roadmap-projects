@@ -2,17 +2,31 @@
 
 namespace App\Policies;
 
+use App\Enums\ArticlePermissionEnum;
 use App\Models\Article;
 use App\Models\User;
 
 class ArticlePolicy
 {
+
+    /**
+     * Optional before interceptor for super admins.
+     */
+    public function before(User $user, string $ability): ?bool
+    {
+        if ($user->hasRole('admin')) {
+            return true;
+        }
+
+        return null;
+    }
+
     /**
      * Determine whether the user can view any models.
      */
     public function viewAny(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo(ArticlePermissionEnum::VIEW_HOME);
     }
 
     /**
@@ -20,7 +34,7 @@ class ArticlePolicy
      */
     public function view(User $user, Article $article): bool
     {
-        return true;
+        return $user->hasPermissionTo(ArticlePermissionEnum::READ);
     }
 
     /**
@@ -28,7 +42,7 @@ class ArticlePolicy
      */
     public function create(User $user): bool
     {
-        return true;
+        return $user->hasPermissionTo(ArticlePermissionEnum::CREATE);
     }
 
     /**
@@ -36,7 +50,8 @@ class ArticlePolicy
      */
     public function update(User $user, Article $article): bool
     {
-        return $user->id === $article->user_id;
+        return $user->hasPermissionTo(ArticlePermissionEnum::UPDATE) &&
+            $user->id === $article->user_id;
     }
 
     /**
@@ -44,22 +59,7 @@ class ArticlePolicy
      */
     public function delete(User $user, Article $article): bool
     {
-        return $user->id === $article->user_id;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, Article $article): bool
-    {
-        return $user->id === $article->user_id;
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, Article $article): bool
-    {
-        return $user->id === $article->user_id;
+        return $user->hasPermissionTo(ArticlePermissionEnum::DELETE) &&
+            $user->id === $article->user_id;
     }
 }

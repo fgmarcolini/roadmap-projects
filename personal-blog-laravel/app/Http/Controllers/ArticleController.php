@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ArticleFilterRequest;
-use App\Http\Requests\ArticleRequest;
+use App\Http\Requests\StoreArticleRequest;
+use App\Http\Requests\UpdateArticleRequest;
 use App\Models\Article;
 use App\Services\ArticleService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
 class ArticleController extends Controller
@@ -15,6 +17,8 @@ class ArticleController extends Controller
      */
     public function index(ArticleService $service, ArticleFilterRequest $request)
     {
+        Gate::authorize('viewAny', Article::class);
+
         $filters = $request->validated();
         $articles = $service->fetchAll($filters);
 
@@ -26,7 +30,9 @@ class ArticleController extends Controller
      */
     public function admin(ArticleService $service, ArticleFilterRequest $request)
     {
-        $user = auth()->user();
+        Gate::authorize('viewAny', Article::class);
+
+        $user = Auth::user();
         $filters = $request->validated();
         $articles = $service->fetchAll($filters, $user);
 
@@ -38,15 +44,17 @@ class ArticleController extends Controller
      */
     public function create()
     {
+        Gate::authorize('create', Article::class);
+
         return view('articles.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(ArticleService $service, ArticleRequest $request)
+    public function store(ArticleService $service, StoreArticleRequest $request)
     {
-        $service->storeArticle(auth()->user(), $request->validated());
+        $service->storeArticle(Auth::user(), $request->validated());
 
         return redirect()
             ->route('articles.admin')
@@ -58,8 +66,12 @@ class ArticleController extends Controller
      */
     public function show(Article $article)
     {
-        return view('articles.show',
-            ['article' => $article]);
+        Gate::authorize('view', $article);
+
+        return view(
+            'articles.show',
+            ['article' => $article]
+        );
     }
 
     /**
@@ -75,10 +87,8 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(ArticleService $service, ArticleRequest $request, Article $article)
+    public function update(ArticleService $service, UpdateArticleRequest $request, Article $article)
     {
-        Gate::authorize('update', $article);
-
         $service->updateArticle($article, $request->validated());
 
         return redirect()

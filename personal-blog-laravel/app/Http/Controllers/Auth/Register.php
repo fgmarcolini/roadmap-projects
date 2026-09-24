@@ -7,6 +7,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class Register extends Controller
 {
@@ -16,13 +17,13 @@ class Register extends Controller
     public function __invoke(RegisterRequest $request)
     {
         $validated = $request->validated();
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password']),
-        ]);
+
+        $role = Role::findOrCreate('user');
+        $user = User::create($validated);
+        $user->assignRole($role);
+
         Auth::login($user);
 
-        return redirect()->route('articles.admin')->with('success', 'Logged in successfully!');
+        return redirect()->route('articles.index')->with('success', 'Logged in successfully!');
     }
 }

@@ -2,19 +2,19 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Article;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class ArticleRequest extends FormRequest
+class StoreArticleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return $this->user()->can('create', Article::class);
+        $article = $this->route('article');
+        return $this->user()->can('create', $article);
     }
 
     /**
@@ -27,7 +27,7 @@ class ArticleRequest extends FormRequest
         return [
             'title' => 'required|string|max:50',
             'dop' => ['required', Rule::date()->beforeOrEqual(today())],
-            'content' => 'required|max:500',
+            'content' => 'required|max:5000',
         ];
     }
 }

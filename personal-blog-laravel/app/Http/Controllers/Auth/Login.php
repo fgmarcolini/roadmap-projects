@@ -20,7 +20,7 @@ class Login extends Controller
             $request->session()->regenerate();
 
             // Redirect to intended page or home
-            return redirect()->route('articles.admin')->with('success', 'Welcome back!');
+            return redirect()->route('articles.index')->with('success', 'Welcome back!');
         }
 
         return back()

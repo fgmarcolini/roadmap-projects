@@ -1,8 +1,13 @@
+@use('App\Enums\UserPermissionEnum')
+@use('App\Enums\ArticlePermissionEnum')
+
 <x-layout title="Home" heading="Personal Blog">
     <x-slot:headerActions>
         @auth
             <div class="link-container">
-                <a href="{{ route('articles.admin') }}" class="btn btn-outline-light">Admin Dashboard</a>
+                @can(ArticlePermissionEnum::VIEW_ADMIN->value)
+                    <a href="{{ route('articles.admin') }}" class="btn btn-outline-light">Admin Dashboard</a>
+                @endcan
                 <form action="{{ route('logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-outline-light">Logout</button>

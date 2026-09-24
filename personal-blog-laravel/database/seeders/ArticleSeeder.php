@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
 
 class ArticleSeeder extends Seeder
 {
@@ -13,27 +14,28 @@ class ArticleSeeder extends Seeder
      */
     public function run(): void
     {
+        $writerRole = Role::findOrCreate('writer');
         $lorem = 'https://jaspervdj.be/lorem-markdownum/markdown.txt';
 
         $users = User::count() < 3
-                ? collect([
-                    User::create([
-                        'name' => 'Alice Developer',
-                        'email' => 'alice@example.com',
-                        'password' => bcrypt('password'),
-                    ]),
-                    User::create([
-                        'name' => 'Bob Builder',
-                        'email' => 'bob@example.com',
-                        'password' => bcrypt('password'),
-                    ]),
-                    User::create([
-                        'name' => 'Charlie Coder',
-                        'email' => 'charlie@example.com',
-                        'password' => bcrypt('password'),
-                    ]),
-                ])
-                : User::take(3)->get();
+            ? collect([
+                User::create([
+                    'name' => 'Alice Developer',
+                    'email' => 'alice@example.com',
+                    'password' => bcrypt('password'),
+                ])->assignRole($writerRole),
+                User::create([
+                    'name' => 'Bob Builder',
+                    'email' => 'bob@example.com',
+                    'password' => bcrypt('password'),
+                ])->assignRole($writerRole),
+                User::create([
+                    'name' => 'Charlie Coder',
+                    'email' => 'charlie@example.com',
+                    'password' => bcrypt('password'),
+                ])->assignRole($writerRole),
+            ])
+            : User::take(3)->get();
 
         $matches = [
             'Argentina vs Spain',

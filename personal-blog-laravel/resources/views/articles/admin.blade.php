@@ -1,6 +1,18 @@
+@use('App\Enums\UserPermissionEnum')
+@use('App\Enums\ArticlePermissionEnum')
+
 <x-layout title="Admin Dashboard" heading="Admin Dashboard">
     <x-slot:headerActions>
-        <a href="{{ route('articles.index') }}" class="btn btn-outline-light">Return to Home</a>
+        <div class="link-container">
+            @can(UserPermissionEnum::READ->value)
+                <a href="{{ route('users.index') }}" class="btn btn-outline-light">Manipulate Users</a>
+            @endcan
+            <a href="{{ route('articles.index') }}" class="btn btn-outline-light">Return to Home</a>
+            <form action="{{ route('logout') }}" method="POST" class="d-inline">
+                @csrf
+                <button type="submit" class="btn btn-outline-light">Logout</button>
+            </form>
+        </div>
     </x-slot:headerActions>
 
     <div class="mb-4">
@@ -19,11 +31,13 @@
     </div>
 
     <nav>
+        @can(ArticlePermissionEnum::CREATE->value)
         <div class="d-flex justify-content-end px-3 mb-2">
             <a href="{{ route('articles.create') }}" class="btn btn-outline-primary">
                 + Add Article
             </a>
         </div>
+        @endcan
 
         <ul class="list-group">
             @foreach ($articles as $article)
@@ -32,16 +46,18 @@
                         {{ $article->title }}
                     </a>
 
-                    @can('update', $article)
-                        <div>
-                            <small class="text-muted me-2">
-                                {{ date_format($article->dop, 'M j, Y') }}
-                            </small>
+                    <div>
+                        <small class="text-muted me-2">
+                            {{ date_format($article->dop, 'M j, Y') }}
+                        </small>
 
+                        @can(ArticlePermissionEnum::UPDATE->value)
                             <a class="btn btn-sm btn-outline-secondary me-2" href="{{ route('articles.edit', $article) }}">
                                 Edit
                             </a>
+                        @endcan
 
+                        @can(ArticlePermissionEnum::DELETE->value)
                             <form action="{{ route('articles.destroy', $article) }}" method="POST" class="d-inline">
                                 @csrf
                                 @method('DELETE')
@@ -51,11 +67,11 @@
                                     Delete
                                 </button>
                             </form>
-                        </div>
-                    @endcan
+                        @endcan
+                    </div>
 
                 </li>
-            @endforeach
+                @endforeach
         </ul>
     </nav>
     <!-- Pagination Controls -->
