@@ -15,7 +15,7 @@ class ArticleService
 
         return $query
             ->filter($filters)
-            ->simplePaginate(5);
+            ->simplePaginate(10);
     }
 
     public function storeArticle(User $user, array $data): Article

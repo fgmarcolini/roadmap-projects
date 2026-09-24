@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Auth\Login;
 use App\Http\Controllers\Auth\Logout;
 use App\Http\Controllers\Auth\Register;
@@ -25,6 +26,9 @@ Route::middleware('auth')->group(function () {
     // ARTICLE ADMIN CUSTOM
     Route::get('/admin', [ArticleController::class, 'admin'])
         ->name('articles.admin');
+
+    // ROLES RESOURCE
+    Route::resource('roles', RoleController::class);
 
     // ARTICLES RESOURCE
     Route::resource('articles', ArticleController::class);

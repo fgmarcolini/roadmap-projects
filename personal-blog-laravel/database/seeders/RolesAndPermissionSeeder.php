@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Enums\ArticlePermissionEnum;
+use App\Enums\RolePermissionEnum;
 use App\Enums\UserPermissionEnum;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
@@ -15,6 +16,12 @@ class RolesAndPermissionSeeder extends Seeder
      */
     public function run(): void
     {
+        // Roles permissions
+        Permission::findOrCreate(RolePermissionEnum::CREATE);
+        Permission::findOrCreate(RolePermissionEnum::READ);
+        Permission::findOrCreate(RolePermissionEnum::UPDATE);
+        Permission::findOrCreate(RolePermissionEnum::DELETE);
+
         // User permissions
         Permission::findOrCreate(UserPermissionEnum::CREATE);
         Permission::findOrCreate(UserPermissionEnum::READ);

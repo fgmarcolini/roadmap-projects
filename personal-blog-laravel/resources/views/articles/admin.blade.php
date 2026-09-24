@@ -1,11 +1,15 @@
 @use('App\Enums\UserPermissionEnum')
 @use('App\Enums\ArticlePermissionEnum')
+@use('App\Enums\RolePermissionEnum')
 
 <x-layout title="Admin Dashboard" heading="Admin Dashboard">
     <x-slot:headerActions>
         <div class="link-container">
             @can(UserPermissionEnum::READ->value)
                 <a href="{{ route('users.index') }}" class="btn btn-outline-light">Manipulate Users</a>
+            @endcan
+            @can(RolePermissionEnum::READ->value)
+                <a href="{{ route('roles.index') }}" class="btn btn-outline-light">Manipulate Roles</a>
             @endcan
             <a href="{{ route('articles.index') }}" class="btn btn-outline-light">Return to Home</a>
             <form action="{{ route('logout') }}" method="POST" class="d-inline">

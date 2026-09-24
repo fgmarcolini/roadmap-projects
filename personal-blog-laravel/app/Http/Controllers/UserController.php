@@ -24,7 +24,7 @@ class UserController extends Controller
             'users' =>
             User::latest()
                 ->except($user)
-                ->paginate(5)
+                ->simplePaginate(10)
         ]);
     }
 
@@ -47,7 +47,9 @@ class UserController extends Controller
         $validated = $request->validated();
 
         $user = User::create(
-            collect($validated)->only(['name', 'email', 'password'])
+            collect($validated)
+                ->only(['name', 'email', 'password'])
+                ->toArray()
         );
         $user->assignRole($validated['role']);
 
