@@ -1,0 +1,15 @@
+# Node
+**/node_modules/
+**/.npm/
+
+# PHP
+**/vendor/
+**/.composer/
+
+# Java
+**/target/
+**/.gradle/
+
+# IDEs
+**/.idea/
+**/.vscode/

@@ -15,7 +15,7 @@ Welcome to my backend engineering portfolio! This repository tracks my progress 
 
 ## 👋 About Me
 
-I'm **massemiso**, a junior backend developer with a deep desire to master the underlying mechanics of web development, systems architecture, and high-performance coding. This repository is my "learning laboratory" where I practice building robust, well-tested, and maintainable software.
+I'm **fgmarcolini**, a junior backend developer with a deep desire to master the underlying mechanics of web development, systems architecture, and high-performance coding. This repository is my "learning laboratory" where I practice building robust, well-tested, and maintainable software.
 
 ## 📦 Projects
 
@@ -91,6 +91,12 @@ A CLI tool to interact with The Movie Database API for fetching trending and sea
 
 - **Concepts:** External API Integration, API Key Management, CLI Design, Error Handling.
 
+### 13. [Caching Proxy](./caching-proxy)
+
+A caching reverse proxy CLI that forwards requests to an origin server and serves repeated responses from a local cache.
+
+- **Concepts:** Reverse Proxying, HTTP Response Caching, TTL/Expiry, `X-Cache` Diagnostics, Cache Key Design, Cobra CLI, Interface-Driven Design.
+
 ## 🛠 Tech Stack
 
 - **Go (Golang):** My primary language for CLI tools and high-performance services, emphasizing standard library usage and clean architecture.
@@ -132,7 +138,7 @@ Each project is standalone. You can find detailed setup, build, and execution in
 ## 💭 Feedback
 
 I'm always looking for ways to improve my code! If you're a senior dev or a fellow learner, I'd love to hear your thoughts.
-Contact me at [massemiso@proton.me](mailto:massemiso@proton.me).
+Contact me at [fgmarcolini@gmail.com](mailto:fgmarcolini@gmail.com).
 
 ---
 
